@@ -32,13 +32,13 @@ docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --ne
 ###############################
 
 # AOS-Postgres Database
-docker create -p 5432:5432 --name aos_postgres --hostname aosdb.aos.com --net demo-net admpresales/aos-postgres:1.1.3.1	
+docker create -p 5432:5432 --name aos_postgres --hostname aosdb.aos.com --net demo-net admpresales/aos-postgres:1.1.5
 
 # AOS-accountservice
-docker create -p 8001:8080 --name aos_accountservice --hostname aosaccount.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=aos_postgres" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e 'MAIN_IP=nimbusserver' -e "ACCOUNT_IP=nimbusserver" -e "PGPASSWORD=admin" --net demo-net admpresales/aos-accountservice:1.1.3.1
+docker create -p 8001:8080 --name aos_accountservice --hostname aosaccount.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e 'MAIN_IP=nimbusserver.aos.com' -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-accountservice-dev" --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-accountservice:1.1.5
 
 # AOS-main
-docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=aos_postgres" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e 'MAIN_IP=nimbusserver' -e "ACCOUNT_IP=nimbusserver" -e "PGPASSWORD=admin" --net demo-net admpresales/aos-main-app:1.1.3.1
+docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e "MAIN_IP=nimbusserver.aos.com" -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-main-dev" --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-main-app:1.1.5
 
 ## Old Version - Remove when you have access to the 3-part AOS ##
 #docker pull admpresales/aos:postgres
@@ -47,12 +47,12 @@ docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRE
 ############
 ## Devops ##
 ############
-docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net admpresales/devops:1.1.3.4
+docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.5.0
 
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.55.32.68_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.4.98_dis
 
 
 ######################
@@ -65,12 +65,13 @@ docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhos
 ##############
 # This needs to be run within the GUI of the linux environment (GNOME)
 ##############
-docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.3.5
+export DISPLAY=:0
+docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.3.7
 
 ###################
 ## Mobile Center ##
 ###################
-docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:2.60.1_di
+docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:2.70_di
 
 #############
 ## ALM.Net ##
@@ -81,3 +82,19 @@ docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net 
 ## PPM ##
 #########
 docker create --name ppm --shm-size=2g --hostname=ppm.aos.com -p 8087:8080 -p 1098:1099 --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --ip 172.50.10.20 admpresales/ppm:9.42.0.1_d
+
+#########
+## NV ##
+#########
+
+docker create -i --cap-add=NET_ADMIN --name nv --net=host --privileged -v /usr/src:/usr/src admpresales/nv:9.13 /root/dockerentrypointfile.sh
+
+######################
+## Android Emulator ##
+######################
+docker create --rm -e "DEVICE=Nexus7-5.1.1" -e GPU="off" -e "CONSOLE_PORT=5554" -p "5554:5554" -p "5555:5555" -p 6080:6080 -p 8080:8080 --net demo-net --name nexus5 --privileged admpresales/android-emulator:2.70-alpha
+
+###############
+## DA-Server ##
+###############
+docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.1.5_di
