@@ -25,7 +25,7 @@
 ##############
 ## Autopass ##
 ##############
-docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --net demo-net -p 5814:5814 --restart=always admpresales/autopass:9.3.3_d
+docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --net demo-net -p 5814:5814 --restart=always admpresales/autopass:10.7.0_d
 
 ###############################
 ## Advantage Online Shopping ##
@@ -52,7 +52,7 @@ docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.4.98_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.10.90_dis
 
 
 ######################
@@ -66,17 +66,17 @@ docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhos
 # This needs to be run within the GUI of the linux environment (GNOME)
 ##############
 export DISPLAY=:0
-docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.3.7
+docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.5.3
 
 ###################
 ## Mobile Center ##
 ###################
-docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:2.70_di
+docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:2.80_di
 
 #############
 ## ALM.Net ##
 #############
-docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net demo-net --shm-size=2g admpresales/alm:12.55_di
+docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net demo-net --shm-size=2g admpresales/alm:12.60_di
 
 #########
 ## PPM ##
@@ -97,4 +97,4 @@ docker create --rm -e "DEVICE=Nexus7-5.1.1" -e GPU="off" -e "CONSOLE_PORT=5554" 
 ###############
 ## DA-Server ##
 ###############
-docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.1.5_di
+docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.2.0_di

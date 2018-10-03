@@ -1,1 +1,1 @@
-docker rm ppm alm mc octane leanft ssc devops aos_main aos_accountservice aos_postgres autopass
+docker rm ppm alm mc octane leanft ssc devops aos_main aos_accountservice aos_postgres autopass nv nexus5 da intellij
