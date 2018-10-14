@@ -47,7 +47,7 @@ docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRE
 ############
 ## Devops ##
 ############
-docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.5.0
+docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.5.3
 
 ############
 ## Octane ##
@@ -58,7 +58,7 @@ docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane 
 ######################
 ## UFT Pro (LeanFT) ##
 ######################
-docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhost -e LFT_LIC_ID=23078 -e VERBOSE=true --net "host" functionaltesting/leanft-chrome:14.03.546
+docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhost -e LFT_LIC_ID=23078 -e VERBOSE=true --net "host" functionaltesting/leanft-chrome:14.50.836
 
 ##############
 ## IntelliJ ##
@@ -66,7 +66,7 @@ docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhos
 # This needs to be run within the GUI of the linux environment (GNOME)
 ##############
 export DISPLAY=:0
-docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.5.3
+docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.5.4
 
 ###################
 ## Mobile Center ##
