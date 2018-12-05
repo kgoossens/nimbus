@@ -52,7 +52,7 @@ docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.10.90_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.16.70_dis
 
 
 ######################
@@ -81,7 +81,7 @@ docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net 
 #########
 ## PPM ##
 #########
-docker create --name ppm --shm-size=2g --hostname=ppm.aos.com -p 8087:8080 -p 1098:1099 --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --ip 172.50.10.20 admpresales/ppm:9.42.0.1_d
+docker create --name ppm --shm-size=2g --hostname=ppm.aos.com -p 8087:8080 -p 1098:1099 --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --ip 172.50.10.20 admpresales/ppm:9.50_d
 
 #########
 ## NV ##
@@ -98,3 +98,8 @@ docker create --rm -e "DEVICE=Nexus7-5.1.1" -e GPU="off" -e "CONSOLE_PORT=5554" 
 ## DA-Server ##
 ###############
 docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.2.0_di
+
+###############
+## SV Server ##
+###############
+docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:4.20
