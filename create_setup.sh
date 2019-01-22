@@ -70,7 +70,7 @@ docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPL
 ###################
 ## Mobile Center ##
 ###################
-docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:3.0_di
+docker create --hostname nimbusserver.aos.com --name mc --net demo-net -p 8084:8084 --shm-size=2g admpresales/mc:3.0_di
 
 #############
 ## ALM.Net ##
