@@ -47,7 +47,7 @@ docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRE
 ############
 ## Devops ##
 ############
-docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.6.0
+docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.6.1
 
 ############
 ## Octane ##
@@ -70,7 +70,7 @@ docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPL
 ###################
 ## Mobile Center ##
 ###################
-docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:2.80_di
+docker create --hostname mc.aos.com --name mc --net demo-net -p 8084:8080 --shm-size=2g admpresales/mc:3.0_di
 
 #############
 ## ALM.Net ##
