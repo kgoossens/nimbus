@@ -32,7 +32,7 @@
 ##############
 ## Autopass ##
 ##############
-docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --net demo-net -p 5814:5814 --restart=always admpresales/autopass:10.7.0_d
+docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --net demo-net -p 5814:5814 --restart=always admpresales/autopass:10.8.0_d
 
 ###############################
 ## Advantage Online Shopping ##
@@ -59,7 +59,7 @@ docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.21.98_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.31.92_dis
 
 ######################
 ## UFT Pro (LeanFT) ##
@@ -82,12 +82,12 @@ docker create --hostname nimbusserver.aos.com --name mc --net demo-net -p 8084:8
 #############
 ## ALM.Net ##
 #############
-docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net demo-net --shm-size=2g admpresales/alm:12.60_di
+docker create -p 8082:8080 -p 1521:1521 --name alm --hostname alm.aos.com --net demo-net --shm-size=2g admpresales/alm:12.61_di
 
 #########
 ## PPM ##
 #########
-docker create --name ppm --shm-size=2g --hostname=ppm.aos.com -p 8087:8080 -p 1098:1099 --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --ip 172.50.10.20 admpresales/ppm:9.50_d
+docker create --name ppm --shm-size=2g --hostname=ppm.aos.com -p 8087:8080 -p 1098:1099 --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --ip 172.50.10.20 admpresales/ppm:9.51_d
 
 #########
 ## NV ##
