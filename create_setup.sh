@@ -11,16 +11,23 @@
 ## Don't forget to update the ipadres below to the address of your NimbusServer external vcard
 
 ## Nimbus 2.0
-#192.168.203.132	octane.aos.com	octane
-#192.168.203.132	mc.aos.com	mc
-#192.168.203.132	nimbusserver.aos.com
-#192.168.203.132	alm.aos.com
-#192.168.203.132	ppm.aos.com
-#192.168.203.132	devops.aos.com
-#192.168.203.132	aosweb.aos.com
-#192.168.203.132	aosaccount.aos.com
-#192.168.203.132	aosdb.aos.com
-#192.168.203.132	autopass.aos.com
+##192.168.217.128	octane.aos.com	octane
+##192.168.217.128	mc.aos.com	mc
+##192.168.217.128	nimbusserver.aos.com
+##192.168.217.128	alm.aos.com
+##192.168.217.128	ppm.aos.com
+##192.168.217.128	devops.aos.com
+##192.168.217.128	aosweb.aos.com
+##192.168.217.128	aosaccount.aos.com
+##192.168.217.128	aosdb.aos.com
+##192.168.217.128	autopass.aos.com
+
+## Nimbus Client
+##192.168.217.129 nimbusclient.aos.com
+
+## PC
+##192.168.217.130 pc.aos.com
+##192.168.217.131 pchost.aos.com
 
 ##############
 ## Autopass ##
@@ -102,3 +109,21 @@ docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-
 ## SV Server ##
 ###############
 docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:4.20
+
+###################
+## Loadgenerator ##
+###################
+
+docker create --name lg-001 -p 10001:54345 --hostname=lg-001.aos.com --net demo-net --add-host pc.aos.com:192.168.217.130 performancetesting/load_generator_linux:12.61
+docker create --name lg-002 -p 10002:54345 --hostname=lg-002.aos.com --net demo-net --add-host pc.aos.com:192.168.217.130 performancetesting/load_generator_linux:12.61
+
+##############################
+## Software Security Center ##
+##############################
+docker create -e MYSQL_ROOT_PASSWORD=Password1 -e MYSQL_DATABASE=ssc_db --name ssc_db --add-host nimbusserver.aos.com:172.50.0.1 --add-host nimbusserver:172.50.0.1 --net demo-net  admpresales/ssc-mysql:18.10-empty
+docker create -e MYSQL_PASS=Password1 --hostname ssc.aos.com --name ssc --net demo-net --add-host nimbusserver.aos.com:172.50.0.1 --add-host nimbusserver:172.50.0.1 -p 8086:8080 admpresales/ssc:18.10
+
+##########################
+## Static Code Analyzer ##
+##########################
+docker create --name sca --net demo-net admpresales/sca:18.20
