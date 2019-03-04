@@ -108,7 +108,10 @@ docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-
 ###############
 ## SV Server ##
 ###############
-docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:4.20
+#docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:4.20
+docker create --name sv-server -e SV_SERVER_AGENT_PORTS=7000-7019 -e SV_USER=demo -e SV_PASSWORD=Password1 -e SV_GROUPS="SVM Users,SV Server Administrators" --net demo-net -p 6085:6085 -p 7000-7019:7000-7019 -h NimbusServer -v /etc/sv-server/ -v /var/log/sv-server/ -v /var/lib/sv-server/ -v /var/cache/sv-server/ admpresales/sv-server:5.0
+docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:5.0
+docker create --name sv-lab-server –net demo-net -e SV_LAB_SERVER_CONNECTOR_PORTS=9000-9019 -p 8445:8445 -p 9000-9019:9000-9019 -h NimbusServer -v /opt/LabServer/log/ admpresales/sv-lab-server:5.0
 
 ###################
 ## Loadgenerator ##
