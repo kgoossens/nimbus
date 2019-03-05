@@ -1,0 +1,69 @@
+version: '3'
+
+volumes:
+  work:
+  logs:
+  db:
+  lab_logs:
+
+services:
+  sv-server:
+    image: virtualization/sv-server
+    container_name: sv-server
+    hostname: ${HOST_NAME}
+    tty: true
+    environment:
+      - WAIT_FOR_DB=sv-db:5432
+      - SV_SERVER_AGENT_PORTS=7000-7019
+      - SV_USER=demo
+      - SV_PASSWORD=changeit
+      - SV_GROUPS=SVM Users,SV Server Administrators
+      - SV_LICENSE_SERVER_URL=https://autopass:5814
+    ports:
+      - 6085:6085 # secure REST
+      - 7000-7019:7000-7019 # SV agents
+    volumes:
+      - work:/sv-server/work
+      - logs:/sv-server/logs
+        # SV Agent binaries
+#      - ./some-library.so:/usr/lib/sv-server/bin/some-library.so
+#      - ./another-library.dll:/usr/lib/sv-server/bin/another-library.dll
+    stop_grace_period: 2m
+    networks:
+      - demo-net    
+    depends_on:
+      - sv-db
+  sv-lab-server:
+    image: virtualization/sv-lab-server
+    container_name: sv-lab-server
+    hostname: ${HOST_NAME}
+    environment:
+      - SV_LAB_SERVER_CONNECTOR_PORTS=9000-9019
+    ports:
+      - 8445:8445 # secure REST
+      - 9000-9019:9000-9019 # SV connectors
+    volumes:
+      - lab_logs:/opt/LabServer/log/
+    stop_grace_period: 2m
+    networks:
+      - demo-net    
+  sv-svm:
+    image: virtualization/sv-svm
+    container_name: sv-svm
+    hostname: ${HOST_NAME}
+    tty: true
+    ports:
+      - 6086:6086 # secure web
+    volumes:
+      - work:/sv-server/work
+      - logs:/sv-server/logs
+    stop_grace_period: 2m
+    networks:
+      - demo-net    
+  sv-db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    container_name: sv-db
+    networks:
+      - demo-net
