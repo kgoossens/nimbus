@@ -67,3 +67,7 @@ services:
     container_name: sv-db
     networks:
       - demo-net
+networks:
+  default:
+    external:
+      name: demo-net
