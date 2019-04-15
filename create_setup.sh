@@ -103,15 +103,15 @@ docker create --rm -e "DEVICE=Nexus7-5.1.1" -e GPU="off" -e "CONSOLE_PORT=5554" 
 ###############
 ## DA-Server ##
 ###############
-docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.2.0_di
+docker create -p 8089:8080 -p 7918:7918 --name da --net demo-net admpresales/da-server:6.2.1_di
 
 ###############
 ## SV Server ##
 ###############
 #docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:4.20
 docker create --name sv-db --net demo-net -v /var/lib/postgresql/data postgres
-docker create --name sv-server -e SV_SERVER_AGENT_PORTS=7000-7019 -e SV_USER=demo -e SV_PASSWORD=Password1 -e SV_GROUPS="SVM Users,SV Server Administrators" --net demo-net -p 6085:6085 -p 7000-7019:7000-7019 -h NimbusServer -v /etc/sv-server/ -v /var/log/sv-server/ -v /var/lib/sv-server/ -v /var/cache/sv-server/ admpresales/sv-server:5.0
-docker create --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:5.0
+docker create -t --name sv-server -e SV_SERVER_AGENT_PORTS=7000-7019 -e SV_USER=demo -e SV_PASSWORD=Password1 -e SV_GROUPS="SVM Users,SV Server Administrators" -e SV_LICENSE_SERVER_URL="https://172.50.10.10:5814" --net demo-net -p 6085:6085 -p 7000-7019:7000-7019 -h NimbusServer -v /sv-server/work -v /sv-server/logs admpresales/sv-server:5.0
+docker create -t --name sv-svm --net demo-net -p 6086:6086 -h NimbusServer --volumes-from sv-server admpresales/sv-svm:5.0
 docker create --name sv-lab-server --net demo-net -e SV_LAB_SERVER_CONNECTOR_PORTS=9000-9019 -p 8445:8445 -p 9000-9019:9000-9019 -h NimbusServer -v /opt/LabServer/log/ admpresales/sv-lab-server:5.0
 
 ###################
