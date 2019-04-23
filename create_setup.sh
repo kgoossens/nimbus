@@ -39,13 +39,13 @@ docker create --hostname autopass.aos.com --ip=172.50.10.10 --name autopass --ne
 ###############################
 
 # AOS-Postgres Database
-docker create -p 5432:5432 --name aos_postgres --hostname aosdb.aos.com --net demo-net admpresales/aos-postgres:1.1.6
+docker create -p 5432:5432 --name aos_postgres --hostname aosdb.aos.com --net demo-net admpresales/aos-postgres:1.1.7
 
 # AOS-accountservice
-docker create -p 8001:8080 --name aos_accountservice --hostname aosaccount.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e 'MAIN_IP=nimbusserver.aos.com' -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-accountservice-dev" --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-accountservice:1.1.6
+docker create -p 8001:8080 --name aos_accountservice --hostname aosaccount.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e 'MAIN_IP=nimbusserver.aos.com' -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-accountservice-dev" --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-accountservice:1.1.7
 
 # AOS-main
-docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e "MAIN_IP=nimbusserver.aos.com" -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-main-dev" --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-main-app:1.1.6
+docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRES_PORT=5432" -e "POSTGRES_IP=nimbusserver.aos.com" -e "MAIN_PORT=8000" -e "ACCOUNT_PORT=8001" -e "MAIN_IP=nimbusserver.aos.com" -e "ACCOUNT_IP=nimbusserver.aos.com" -e "PGPASSWORD=admin" -e "AGENT_NAME=aos-main-dev" --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/aos-main-app:1.1.7
 
 ## Old Version - Remove when you have access to the 3-part AOS ##
 #docker pull admpresales/aos:postgres
@@ -54,17 +54,17 @@ docker create -p 8000:8080 --name aos_main --hostname aosweb.aos.com -e "POSTGRE
 ############
 ## Devops ##
 ############
-docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.6.1
+docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --hostname devops.aos.com --net demo-net --add-host nimbusserver:172.50.0.1 --add-host nimbusserver.aos.com:172.50.0.1 admpresales/devops:1.1.7.1
 
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.31.92_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.35.186_dis
 
 ######################
 ## UFT Pro (LeanFT) ##
 ######################
-docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhost -e LFT_LIC_ID=23078 -e VERBOSE=true --net "host" functionaltesting/leanft-chrome:14.50.836
+docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhost -e LFT_LIC_ID=23078 -e VERBOSE=true --net "host" functionaltesting/leanft-chrome:14.52.545
 
 ##############
 ## IntelliJ ##
@@ -72,12 +72,12 @@ docker create --name leanft -p 5095:5095 -p 5900:5900 -e LFT_LIC_SERVER=localhos
 # This needs to be run within the GUI of the linux environment (GNOME)
 ##############
 export DISPLAY=:0
-docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.6.0
+docker create --name intellij -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --net "host" -p 8824:8824 -p 5095:5095 admpresales/intellij:1.1.7.1
 
 ###################
 ## Mobile Center ##
 ###################
-docker create --hostname nimbusserver.aos.com --name mc --net demo-net -p 8084:8084 --shm-size=2g admpresales/mc:3.0_di
+docker create --hostname nimbusserver.aos.com --name mc --net demo-net -p 8084:8084 --shm-size=2g admpresales/mc:3.1_di
 
 #############
 ## ALM.Net ##
