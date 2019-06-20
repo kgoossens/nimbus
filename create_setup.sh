@@ -21,6 +21,7 @@
 ##192.168.217.128	aosaccount.aos.com
 ##192.168.217.128	aosdb.aos.com
 ##192.168.217.128	autopass.aos.com
+##192.168.217.128	jira.aos.com
 
 ## Nimbus Client
 ##192.168.217.129 nimbusclient.aos.com
@@ -59,7 +60,7 @@ docker create -p 8090:8080 -p 8091:80 -p 50000:50000 -p 9022:22 --name devops --
 ############
 ## Octane ##
 ############
-docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.35.186_dis
+docker create -p 1099:1099 -p 8085:8080 -p 9081:9081 -p 9082:9082 --name octane --hostname octane.aos.com --net demo-net -e OCTANE_HOST=nimbusserver.aos.com --shm-size=2g admpresales/octane:12.60.47.88_dis
 
 ######################
 ## UFT Pro (LeanFT) ##
@@ -131,3 +132,8 @@ docker create -e MYSQL_PASS=Password1 --hostname ssc.aos.com --name ssc --net de
 ## Static Code Analyzer ##
 ##########################
 docker create --name sca --net demo-net admpresales/sca:18.20
+
+###########
+## JIRA  ##
+###########
+docker create -p 8099:8080 --name jira --hostname jira.aos.com --add-host nimbusserver.aos.com:172.50.0.1 --net demo-net admpresales/jira:8.1.0
